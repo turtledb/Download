@@ -367,6 +367,7 @@ if __name__ == "__main__":
         task.start()
         start_time = time.time()
         download.watch_files(filename, filenames, task, total_size)
+        task.join()
         # Analyse the result.
         total_time = int(time.time() - start_time)
         print_result(download.get_tasks_info(), filename, filenames, total_time)

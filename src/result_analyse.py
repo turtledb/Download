@@ -45,7 +45,6 @@ def result(filename, total_time, download_bytes, length=None):
             rtn = ''.join((rtn, "{} complete normally. ".format(filename)))
         else:
             rtn = ''.join((rtn, "{} complete unnormally, and miss {:d} bytes. ".format(filename, length - download_bytes)))
-            print("length:", length, "  downloaded: ", download_bytes)
 
     size = format_bytes(download_bytes)
     if size[0]:
