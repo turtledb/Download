@@ -14,13 +14,7 @@
 #              or the multithreading.
 #
 # FUNCTION:
-#           Download the flv video coming from www.youku.com, www.ku6.com, www.tudou.com,
-#           v.qq.com, www.56.com, v.163.com, www.letv.com, www.cctv.com, v.ifeng.com,
-#           www.m1905.com, video.sina.com.cn, www.kugou.com, kankan.xunlei.com(partial),
-#           and so on, only if you give the URL of the file. 
-#
-#           In a word, only if the website(www.flvcd.com) can parse it, this program 
-#           can download the file. Thank for www.flvcd.com.
+#           Download the flv video coming from www.youku.com.
 #
 # UPDATES:
 #           (1) Adjust the codes according to the module "download".
