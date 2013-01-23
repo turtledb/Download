@@ -183,7 +183,6 @@ def download(urls, filenames, temp_dir=temp_directory_to_save_file, task_number=
 
             rtn.append((url, filename, r))
             if result:
-                print(result)
                 if r == 3:
                     print(analyse_result(get_tasks_info(filename), filename), end="\n\n")
                     continue
