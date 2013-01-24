@@ -238,7 +238,7 @@ def usage(program_name):
     """
     print("")
     print("Usage:")
-    print("      {} [-b] [-h] [-H] [-s] [URL] [filename]\n".format(program_name))
+    print("      {} [-bhsH] [-n NUM] [-N NUM] [URL] [filename]\n".format(program_name))
     print("-h")
     print("    Print the help information.\n")
     print("-b")
@@ -247,6 +247,10 @@ def usage(program_name):
     print("    Download the high vedio.\n")
     print("-s")
     print("    Download the super vedio.\n")
+    print("-n")
+    print("    Download from NUMth part to the end.\n")
+    print("-N")
+    print("    Only download NUMth part.\n")
     print("URL")
     print("    the address where you will download what you want.\n")
     print("filename")
@@ -259,10 +263,13 @@ if __name__ == "__main__":
     
     # Handle the argument from the command line.
     try:
-        options, args = getopt.getopt(sys.argv[1:], "bhHs")
+        options, args = getopt.getopt(sys.argv[1:], "bhHsn:N:")
     except getopt.GetoptError:
         usage(os.path.split(sys.argv[0])[1])
     opt_url = 0
+    nth_part = 1
+    Nth_part = 1
+    n_or_N = 'n'
     for opt, val in options:
         if opt == '-b':
             opt_url = 0
@@ -270,6 +277,16 @@ if __name__ == "__main__":
             opt_url = 1
         elif opt == '-s':
             opt_url = 2
+        elif opt == '-n':
+            val = int(val)
+            if val > 1:
+                nth_part = val
+                n_or_N = 'n'
+        elif opt == '-N':
+            val = int(val)
+            if val > 1:
+                Nth_part = val
+                n_or_N = 'N'
         else:
             usage(os.path.split(sys.argv[0])[1])
     arg_len = len(args)
@@ -337,10 +354,22 @@ if __name__ == "__main__":
             filenames = ['{}({:d})_{:02d}{}'.format(filename[:dot_loc], url_len, i, filename[dot_loc:]) for i in range(1, len(urls)+1)]
         print("This file is divided into {:d} parts".format(len(filenames)))
 
+    if n_or_N == 'n':
+        if url_len > nth_part:
+            _nth_part = nth_part - 1
+            urls = urls[_nth_part:]
+            filenames = filenames[_nth_part:]
+    else:
+        if url_len > Nth_part:
+            _Nth_part = Nth_part - 1
+            urls = urls[_Nth_part:Nth_part]
+            filenames = filenames[_Nth_part:Nth_part]
+            nth_part = Nth_part
+
     print("Start to download ...")
     start_time = time.time()
     try:
-        for i, u_f in enumerate(zip(urls, filenames), 1):
+        for i, u_f in enumerate(zip(urls, filenames), nth_part):
             if url_len > 1:
                 print("Downloading the {:d}th part ...".format(i))
             task = Thread(target=download.download, args=(u_f[0], u_f[1]))
@@ -352,7 +381,7 @@ if __name__ == "__main__":
     except Exception:
         print("Sorry! The program has a exception, and the author will modify it.")
     else:
-        if url_len > 1:
+        if url_len == len(urls):
             total_time = int(time.time() - start_time)
             print_result(download.get_tasks_info(), filename, filenames, total_time)
 
