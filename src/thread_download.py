@@ -157,9 +157,6 @@ def _not_breakpoint_download(url, filename):
 def _breakpoint_download(url, filename, temp_dir, number, length):
     _thread_lock.acquire()
     _tasks_information[filename][0] = True
-    _tasks_information[filename][3] = length
-    _tasks_information[filename][5] = etag
-    _tasks_information[filename][6] = last_modified
     _thread_lock.release() 
 
     # Allocate the downloads for every thread.
@@ -246,7 +243,7 @@ def thread_download(url, filename, temp_dir, number=_thread_number, breakpoint=T
         return 1
 
     _thread_lock.acquire()
-    _tasks_information[filename] = [None, url, 0, 0, {}, None, None]
+    _tasks_information[filename] = [None, url, 0, length, {}, etag, last_modified]
     _thread_lock.release()
 
     if not accept_ranges or not length:
