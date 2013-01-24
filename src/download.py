@@ -1,47 +1,8 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
-#
-# AUTHOR:   xgfone
-# DATE:     2013-1-22
-# VERSION:  0.2
-# PLATFORM: ALL
-# EMAIL:    xgfone@126.com
-# FUNCTION:
-#           Download what you want through the multiprocessing or the multithreading.
+# FUNCTION: Download what you want through the multiprocessing or the multithreading.
 # NOTICES:  If the downloaded percent is over 100%, it indicates the URL of the file
 #           you want to download has changed. Please download it again.
-# UPDATES:
-#           (1) Adjust the watch.
-#           (2) Add the watch with more than one file.
-#           (3) Add the functions "is_default_tasks_information", "install_get_tasks_info",
-#               "get_tasks_info", "install_downloader", "download_with_watch".
-#           (4) Adjust the interface between the components, especially the form of the 
-#               information that the downloader downloads the file.
-#           (5) Adjust the downloader engine in order to permit the users use their 
-#               downloader, only if they observe the interface between the downloader
-#               and the downloader engine.
-#           (6) Increase the thread-safe of the multithreading downloader.
-#           (7) Correct, adjust and add other codes.
-#
-# LECENSE: 
-# Copyright (c) 2012 xgfone
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights 
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
-# copies of the Software, and to permit persons to whom the Software is furnished
-# to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-# FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
-# COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER 
-# IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
 import re
@@ -232,7 +193,8 @@ def _usage(program_name):
     """
     print("")
     print("Usage:")
-    print("      {} [-dhnv][-D dir][-N number][-b breakpoint] [URL] [filename]\n".format(program_name))
+    print("      {} [-dhnv][-D dir][-N number][-b breakpoint] [URL] [filename]".format(program_name))
+    print("      Download what you want through the multiprocessing or the multithreading.\n")
     print("-h")
     print("    Print the help information\n")
     print("-n")

@@ -1,28 +1,13 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# AUTHOR:   xgfone
-# DATE:     2013-1-22
-# VERSION:  0.2
-# PLATFORM: ALL
-# EMAIL:    xgfone@126.com
-#
 # REQUIREMENT: 
 #           (1)Python3 --- an interpreter programming language, >= 3.
 #           (2)BeautifulSoup4 --- a python package, >= 4.
 #           (3)download ---- a module, which downloads a file through the multiprocessing
 #              or the multithreading.
 #
-# FUNCTION:
-#           Download the flv video coming from www.youku.com.
-#
-# UPDATES:
-#           (1) Adjust the codes according to the module "download".
-#           (2) Change the old codes to a class "FLVCD".
-#           (3) Define the interface parsing the URL from the third websits.
-#           (4) Add the class "FLVXZ", parsing the URL from www.flvxz.com. But the website
-#               may have a bit questiones, or the class is not perfect, so the class can't
-#               work successfully.
+# FUNCTION: Download the flv video coming from www.youku.com.
 #
 # PROBLEM: 
 #           (1) If it can't download what you want, please first check whether the URL 
@@ -31,26 +16,6 @@
 #           (2) The class "FLVXZ" can't work successfully. urllib.request.urlopen can't
 #               acquire the whole result website. So it must use a especial way. I hope
 #               someone to solve it. I will give the interface later.
-#              
-# LECENSE: 
-# Copyright (c) 2012 xgfone
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights 
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
-# copies of the Software, and to permit persons to whom the Software is furnished
-# to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
-# FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR 
-# COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER 
-# IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
 import re
