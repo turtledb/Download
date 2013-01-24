@@ -13,11 +13,9 @@ Introduction
     flv_download.py -- a downloader used to download the flv video from other website with the download.py downloader
     above.
 
-    flv_download.py support www.youku.com, www.ku6.com, www.tudou.com, v.qq.com, www.56.com, v.163.com, www.letv.com, 
-    www.cctv.com, v.ifeng.com, www.m1905.com, video.sina.com.cn, www.kugou.com, kankan.xunlei.com(partial), and so on.
+    flv_download.py support www.youku.com, and doesn't support www.tudou.com and www.iqiyi.com. The three websites is
+    tested, but others websites is not tested.
 
-    Only if the website(www.flvcd.com) can parse it, this program can download the file. Thank for www.flvcd.com.
-    
     More introduction, please see "doc/*".
 
 Requirement
