@@ -8,6 +8,8 @@
 # EMAIL:    xgfone@126.com
 # FUNCTION:
 #           Download what you want through the multiprocessing or the multithreading.
+# NOTICES:  If the downloaded percent is over 100%, it indicates the URL of the file
+#           you want to download has changed. Please download it again.
 # UPDATES:
 #           (1) Adjust the watch.
 #           (2) Add the watch with more than one file.
