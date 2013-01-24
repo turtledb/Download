@@ -1,0 +1,24 @@
+download:
+0.2:
+    (1) Adjust the watch.
+    (2) Add the watch with more than one file.
+    (3) Add the functions "is_default_tasks_information", "install_get_tasks_info",
+        "get_tasks_info", "install_downloader", "download_with_watch".
+    (4) Adjust the interface between the components, especially the form of the 
+        information that the downloader downloads the file.
+    (5) Adjust the downloader engine in order to permit the users use their 
+        downloader, only if they observe the interface between the downloader
+        and the downloader engine.
+    (6) Increase the thread-safe of the multithreading downloader.
+    (7) Correct, adjust and add other codes.
+
+
+flv_download:
+0.2:
+    (1) Adjust the codes according to the module "download".
+    (2) Change the old codes to a class "FLVCD".
+    (3) Define the interface parsing the URL from the third websits.
+    (4) Add the class "FLVXZ", parsing the URL from www.flvxz.com. But the website
+        may have a bit questiones, or the class is not perfect, so the class can't
+        work successfully.
+
