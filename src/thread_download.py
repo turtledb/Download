@@ -42,13 +42,13 @@ def get_tasks_info(filenames=None):
 
     For example:
     {"/home/user/Download/example1.mp4": [True, "http://www.example.com/example1.mp4", 0, 12345678,
-                                         {"thread_1": [0, 9999999, 10000000, 10000000, None, None, "/tmp/example1_01.mp4"],
-                                          "thread_2": [10000000, 12345677, 2345678, 2000000, None, None, "/tmp/example1_02.mp4"]
-                                         }],
+                                         {"thread_1": ["/tmp/example1_01.mp4", 0, 9999999, 10000000, 10000000],
+                                          "thread_2": ["/tmp/example1_02.mp4", 10000000, 12345677, 2345678, 2000000]
+                                         }, None, None],
      "/home/user/Download/example2.mp4": [True, "http://www.example.com/example2.mp4", 0, 87654321,
-                                         {"thread_1": [0, 79999999, 80000000, 80000000, None, None, "/tmp/example2_01.mp4"],
-                                          "thread_2": [80000000, 87654320, 87654321, 7000000, None, None, "/tmp/example2_02.mp4"]
-                                         }]
+                                         {"thread_1": ["/tmp/example2_01.mp4", 0, 79999999, 80000000, 80000000],
+                                          "thread_2": ["/tmp/example2_02.mp4", 80000000, 87654320, 87654321, 7000000]
+                                         }, None, None]
     }
     """
     rtn = {}
@@ -85,7 +85,7 @@ class _ThreadDownloadTask(Thread):
     """
     The downloader to download the file,  whose implementation is using the thread.
     """
-    def __init__(self, url, file, filename, start=None, end=None, thread_name=None, etag=None, last_modified=None):
+    def __init__(self, url, file, filename, start=None, end=None, thread_name=None):
         """
         Download [start, end] in the "url" into "file".
         If "start" or "end" is None, download the file through the breakpoint transmission;
@@ -95,8 +95,6 @@ class _ThreadDownloadTask(Thread):
         self.url = url
         self.file = file
         self.filename = filename
-        self.etag = etag
-        self.last_modified = last_modified
         self.startpos = start
         self.endpos = end
         self.request = Request(url = self.url)
@@ -115,18 +113,13 @@ class _ThreadDownloadTask(Thread):
         # breakpoint transmission
         if self.length:
             _thread_lock.acquire()
-            _tasks_information[self.filename][4][self.name] = [self.file.name, self.startpos, self.endpos, self.length,
-                                                               self.file.tell(), self.etag, self.last_modified]
+            _tasks_information[self.filename][4][self.name] = [self.file.name, self.startpos, self.endpos, self.length, self.file.tell()]
             _thread_lock.release()
 
             if self.startpos > self.endpos:
                 return
 
             self.request.add_header("Range", "bytes={:d}-{:d}".format(self.startpos, self.endpos))
-            if self.etag:
-                self.request.add_header("If-Range", self.etag)
-            if self.last_modified:
-                self.request.add_header("Unless-Modified-Since", self.last_modified)
         
         connect = _retry_connect(self.request)
         if connect is None:
@@ -151,7 +144,7 @@ def _not_breakpoint_download(url, filename):
     _tasks_information[filename][4] = None
     _thread_lock.release()
     file = open(filename, "wb")
-    task = _ThreadDownloadTask(url, file, filename, None, None, '0')
+    task = _ThreadDownloadTask(url, file, filename, thread_name='0')
     start_time = time.time()
     task.start()
     task.join()
@@ -161,10 +154,12 @@ def _not_breakpoint_download(url, filename):
     _tasks_information[filename][2] = int(end_time - start_time)
     _thread_lock.release()
 
-def _breakpoint_download(url, filename, temp_dir, number, length, etag, last_modified):
+def _breakpoint_download(url, filename, temp_dir, number, length):
     _thread_lock.acquire()
     _tasks_information[filename][0] = True
     _tasks_information[filename][3] = length
+    _tasks_information[filename][5] = etag
+    _tasks_information[filename][6] = last_modified
     _thread_lock.release() 
 
     # Allocate the downloads for every thread.
@@ -185,7 +180,7 @@ def _breakpoint_download(url, filename, temp_dir, number, length, etag, last_mod
     for i in range(len(ranges) - 1):
         file = open("{}_parted{:02d}".format(tmp_filename, i), "wb+")
         files.append(file)
-        task = _ThreadDownloadTask(url, file, filename, ranges[i], ranges[i+1] - 1, str(i+1), etag, last_modified)
+        task = _ThreadDownloadTask(url, file, filename, ranges[i], ranges[i+1] - 1, str(i+1))
         tasks.append(task)
 
     start_time = time.time()
@@ -251,13 +246,13 @@ def thread_download(url, filename, temp_dir, number=_thread_number, breakpoint=T
         return 1
 
     _thread_lock.acquire()
-    _tasks_information[filename] = [None, url, 0, 0, {}]
+    _tasks_information[filename] = [None, url, 0, 0, {}, None, None]
     _thread_lock.release()
 
     if not accept_ranges or not length:
         _not_breakpoint_download()
         return 2
     else:
-        _breakpoint_download(url, filename, temp_dir, number, length, etag, last_modified)
+        _breakpoint_download(url, filename, temp_dir, number, length)
         return 3
 

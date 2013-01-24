@@ -151,7 +151,7 @@ class FLVCD:
             if href and re.match('[Hh][Tt][Tt][Pp][Ss]?://', href):
                 self._urls.append(href)
         return self._urls
-
+    
     def check_others(self):
         basic_high_super = [False, False, False] 
         for i in (0, 1, 2):
@@ -294,24 +294,8 @@ if __name__ == "__main__":
     if not urls:
         parser.check_others(opt_url)
         sys.exit(os.EX_OK)
-
-    # Get the total size of which you want to download.
-    total_size = 0
-    _urls = []
-    for u in urls:
-        try:
-            con = urlopen(u)
-        except error.URLError:
-            continue
-        _urls.append(u)
-        total_size += int(con.headers.get("Content-Length", 0))
-        con.close()
-    urls = _urls
-    if total_size == 0:
-        print("This file can't be downloaded.")
-        sys.exit(os.EX_OK)
         
-    # Each real URL corresponds with a filename.
+    # Correct the filename.
     if not filename:
         url_split = urlparse(url)
         name = os.path.split(url_split.path)[1]
@@ -331,6 +315,8 @@ if __name__ == "__main__":
     except OSError:
         pass
     filename = os.sep.join((mk_dir, file_))
+
+    # Judge whether the file exists.
     if os.path.lexists(filename):
         y_or_n = input("{} has existed. Do you download it again? (y or n) ".format(filename))
         while y_or_n not in ('y', 'Y', 'N', 'n'):
@@ -339,30 +325,34 @@ if __name__ == "__main__":
             print("Exit ...\n")
             sys.exit(os.EX_OK)
     
-    if len(urls) < 2:
+    # Ensure each filename correspond to each url.
+    url_len = len(urls)
+    if url_len < 2:
         filenames = [filename]
     else:
         if loc == -1:
-            filenames = ['{}_{:02d}'.format(filename, i) for i in range(1, len(urls)+1)]
+            filenames = ['{}({:d})_{:02d}'.format(filename, url_len, i) for i in range(1, len(urls)+1)]
         else:
             dot_loc = filename.rfind('.')
-            filenames = ['{}_{:02d}{}'.format(filename[:dot_loc], i, filename[dot_loc:]) for i in range(1, len(urls)+1)]
+            filenames = ['{}({:d})_{:02d}{}'.format(filename[:dot_loc], url_len, i, filename[dot_loc:]) for i in range(1, len(urls)+1)]
         print("This file is divided into {:d} parts".format(len(filenames)))
 
     print("Start to download ...")
+    start_time = time.time()
     try:
-        task = Thread(target=download.download, args=(urls, filenames, temp_download_directory, 10, True, False))
-    except (SystemExit, KeyboardInterrupt):
+        for i, u_f in enumerate(zip(urls, filenames), 1):
+            if url_len > 1:
+                print("Downloading the {:d}th part ...".format(i))
+            task = Thread(target=download.download, args=(u_f[0], u_f[1]))
+            task.start()
+            download.watch(u_f[1], task)
+            task.join()
+    except (KeyboardInterrupt, SystemExit):
         print("Exit ...")
-        sys.exit(os.EX_OK)
     except Exception:
         print("Sorry! The program has a exception, and the author will modify it.")
     else:
-        task.start()
-        start_time = time.time()
-        download.watch_files(filename, filenames, task, total_size)
-        task.join()
-        # Analyse the result.
-        total_time = int(time.time() - start_time)
-        print_result(download.get_tasks_info(), filename, filenames, total_time)
+        if url_len > 1:
+            total_time = int(time.time() - start_time)
+            print_result(download.get_tasks_info(), filename, filenames, total_time)
 
