@@ -19,6 +19,12 @@ try:
 except ImportError:
     from dummy_threading import Thread
 
+__version__ = "0.2.1"
+__author__  = "xgfone <xgfone@126.com>"
+__copyright__ = "Copyright (C) 2012 - 2013, xgfone"
+__contributors__ = []
+__license__ = "MIT"
+
 __all__ = ["install_downloader", "is_default_tasks_information", "install_get_tasks_info",
            "get_tasks_info", "watch", "watch_files", "handle_filenames", "handle_urls",
            "download", "download_with_watch", "analyse_result", "result", "format_time",         
@@ -185,7 +191,7 @@ def _usage(program_name):
     Print the usage of the program.
     @program_name:  the name of this program
     """
-    print("Copyright (C) 2012 - 2013, xgfone")
+    print(__copyright__)
     print(_("Usage:"))
     print("      {} [-dhn][-D dir][-N number][-b breakpoint] [URL] [filename]".format(program_name))
     print(_("      Download what you want through the multiprocessing or the multithreading."), end='\n\n')

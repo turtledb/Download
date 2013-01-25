@@ -1,4 +1,8 @@
 download:
+0.2.1:
+    (1) Add the I18N.
+    (2) Add the version information, and so on.
+
 0.2:
     (1) Adjust the watch.
     (2) Add the watch with more than one file.
@@ -14,6 +18,10 @@ download:
 
 
 flv_download:
+0.2.1:
+    (1) Add the I18N.
+    (2) Add the version information, and so on.
+
 0.2:
     (1) Adjust the codes according to the module "download".
     (2) Change the old codes to a class "FLVCD".

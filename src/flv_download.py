@@ -33,6 +33,12 @@ try:
 except ImportError:
     from dummy_threading import Thread
 
+__version__ = "0.2.1"
+__author__  = "xgfone <xgfone@126.com>"
+__copyright__ = "Copyright (C) 2012 - 2013, xgfone"
+__contributors__ = []
+__license__ = "MIT"
+
 directory_to_save_file = download.directory_to_save_file
 temp_download_directory = download.temp_directory_to_save_file
 
@@ -185,7 +191,7 @@ def usage(program_name):
     Print the usage of the program.
     @program_name:  the name of this program
     """
-    print("Copyright (C) 2012 - 2013, xgfone")
+    print(__copyright__)
     print(_("Usage:"))
     print("      {} [-bhsH] [-n NUM] [-N NUM] [URL] [filename]".format(program_name))
     print(_("      Download FLV video from other video websites."), end='\n\n')
