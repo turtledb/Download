@@ -311,12 +311,13 @@ if __name__ == "__main__":
     url_len = len(urls)
     if url_len < 2:
         filenames = [filename]
+        print("This file has totally one part.")
     else:
         if loc == -1:
-            filenames = ['{}({:d})_{:02d}'.format(filename, url_len, i) for i in range(1, len(urls)+1)]
+            filenames = ['{}_{:d}_{:02d}'.format(filename, url_len, i) for i in range(1, len(urls)+1)]
         else:
             dot_loc = filename.rfind('.')
-            filenames = ['{}({:d})_{:02d}{}'.format(filename[:dot_loc], url_len, i, filename[dot_loc:]) for i in range(1, len(urls)+1)]
+            filenames = ['{}_{:d}_{:02d}{}'.format(filename[:dot_loc], url_len, i, filename[dot_loc:]) for i in range(1, len(urls)+1)]
         print("This file is divided into {:d} parts".format(len(filenames)))
 
     if n_or_N == 'n':
