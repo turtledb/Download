@@ -38,12 +38,9 @@ temp_download_directory = download.temp_directory_to_save_file
 
 def _check_others(basic_high_super, variety):
     index_ = (0, 1, 2)
-    if variety == 0:
-        print("There is not the basic video.")
-    elif variety == 1:
-        print("There is not the high video.")
-    elif variety == 2:
-        print("There is not the super video.")
+    opt = ('b', 'H', 's')
+    content = (_("basic"), _("high"), _("super"))
+    print(_("There is not the {} video.").format(content[variety]))
 
     tmp_ = 0
     for i in index_:
@@ -52,38 +49,25 @@ def _check_others(basic_high_super, variety):
 
     if tmp_ == 0:
         if variety == 0:
-            print("There are also not the high video and the super.")
+            print(_("There are also not the high video and the super."))
         elif variety == 1:
-            print("There are also not the basic video and the super.")
+            print(_("There are also not the basic video and the super."))
         else:
-            print("There are also not the basic video and the high.")
+            print(_("There are also not the basic video and the high."))
     elif tmp_ == 1:
         for i in index_:
             if basic_high_super[i]:
-                if i == 0:
-                    print("There is the {} video, and you can use the -{} option.".format('basic', 'b'))
-                elif i == 1:
-                    print("There is the {} video, and you can use the -{} option.".format('high', 'H'))
-                else:
-                    print("There is the {} video, and you can use the -{} option.".format('super', 's'))
+                print(_("There is the {} video, and you can use the -{} option.").format(content[i], opt[i]))
+                break
     elif tmp_ == 2:
         for i in index_:
             if basic_high_super[i]:
-                if i == 0:
-                    print("There is the {} video(the option: -{}), and ".format('basic', 'b'), end='')
-                elif i == 1:
-                    print("There is the {} video(the option: -{}), and ".format('high', 'H'), end='')
-                else:
-                    print("There is the {} video(the option: -{}), and ".format('super', 's'), end='')
+                print(_("There is the {} video(the option: -{}), and ").format(content[i], opt[i]), end='')
                 break
         for j in index_:
             if j != i and basic_high_super[j]:
-                if j == 0:
-                    print("the {} video(the option: -{}).".format('basic', 'b'))
-                elif j == 1:
-                    print("the {} video(the option: -{}).".format('high', 'H'))
-                else:
-                    print("the {} video(the option: -{}).".format('super', 's'))
+                print(_("the {} video(the option: -{}).").format(content[i], opt[i]))
+                break
     print()
 
 class FLVCD:
@@ -190,7 +174,7 @@ def print_result(tasks_info, filename, filenames, total_time):
                 _total_time = task_info[2]
                 download_bytes = task_info[3]
     except KeyError:
-        print("Analysing the information of the downloaded file failed, because download has error.\n")
+        print(_("Analysing the information of the downloaded file failed, because download has error."), end='\n\n')
     else:
         if not _total_time:
             _total_time = total_time
@@ -201,28 +185,34 @@ def usage(program_name):
     Print the usage of the program.
     @program_name:  the name of this program
     """
-    print("")
-    print("Usage:")
-    print("      {} [-bhsH] [-n NUM] [-N NUM] [URL] [filename]\n".format(program_name))
+    print("Copyright (C) 2012 - 2013, xgfone")
+    print(_("Usage:"))
+    print("      {} [-bhsH] [-n NUM] [-N NUM] [URL] [filename]".format(program_name))
+    print(_("      Download FLV video from other video websites."), end='\n\n')
     print("-h")
-    print("    Print the help information.\n")
+    print(_("    Print the help information."), end='\n\n')
     print("-b")
-    print("    Download the basic vedio.\n")
+    print(_("    Download the basic vedio."), end='\n\n')
     print("-H")
-    print("    Download the high vedio.\n")
+    print(_("    Download the high vedio."), end='\n\n')
     print("-s")
-    print("    Download the super vedio.\n")
-    print("-n")
-    print("    Download from NUMth part to the end.\n")
-    print("-N")
-    print("    Only download NUMth part.\n")
+    print(_("    Download the super vedio."), end='\n\n')
+    print("-n NUM")
+    print(_("    Download from NUMth part to the end."), end='\n\n')
+    print("-N NUM")
+    print(_("    Only download NUMth part."), end='\n\n')
     print("URL")
-    print("    the address where you will download what you want.\n")
+    print(_("    the address where you will download what you want."), end='\n\n')
     print("filename")
-    print("    the name of the file used to save what you will download.\n")
+    print(_("    the name of the file used to save what you will download."), end='\n\n')
     sys.exit(os.EX_OK)
 
 if __name__ == "__main__":
+    import local
+    import locale
+    locale.setlocale(locale.LC_ALL, '')
+    local.install_gettext("messages")
+
     url = ''
     filename = ''
     
@@ -260,16 +250,16 @@ if __name__ == "__main__":
     if arg_len > 1:
         filename = args[1]
     if not url:
-        print("Please give the URL.")
+        print(_("Please give the URL."))
         sys.exit(os.EX_OK)
 
     # Get the real URL of the file which you want to download.
     parser = FLVCD(url, opt_url)
     #parser = FLVXZ(url, opt_url)
-    print("Parse the URL ...") 
+    print(_("Parse the URL ..."))
     urls = parser.parse_url()
     if urls is None:
-        print("Can't parse the URL: {}".format(url))
+        print(_("Can't parse the URL: {}").format(url))
         sys.exit(os.EX_OK)
     
     # Check whether there are other kind of videos.
@@ -300,25 +290,25 @@ if __name__ == "__main__":
 
     # Judge whether the file exists.
     if os.path.lexists(filename):
-        y_or_n = input("{} has existed. Do you download it again? (y or n) ".format(filename))
+        y_or_n = input(_("{} has existed. Do you download it again? (y or n) ").format(filename))
         while y_or_n not in ('y', 'Y', 'N', 'n'):
-            y_or_n = input("Please input (y or n): ")
+            y_or_n = input(_("Please input (y or n): "))
         if y_or_n in ('n', 'N'):
-            print("Exit ...\n")
+            print(_("Exit ..."))
             sys.exit(os.EX_OK)
     
     # Ensure each filename correspond to each url.
     url_len = len(urls)
     if url_len < 2:
         filenames = [filename]
-        print("This file has totally one part.")
+        print(_("This file has totally one part."))
     else:
         if loc == -1:
             filenames = ['{}_{:d}_{:02d}'.format(filename, url_len, i) for i in range(1, len(urls)+1)]
         else:
             dot_loc = filename.rfind('.')
             filenames = ['{}_{:d}_{:02d}{}'.format(filename[:dot_loc], url_len, i, filename[dot_loc:]) for i in range(1, len(urls)+1)]
-        print("This file is divided into {:d} parts".format(len(filenames)))
+        print(_("This file is divided into {:d} parts.").format(len(filenames)))
 
     if n_or_N == 'n':
         if url_len > nth_part:
@@ -332,22 +322,21 @@ if __name__ == "__main__":
             filenames = filenames[_Nth_part:Nth_part]
             nth_part = Nth_part
 
-    print("Start to download ...")
+    print(_("Start to download ..."))
     start_time = time.time()
     try:
         for i, u_f in enumerate(zip(urls, filenames), nth_part):
             if url_len > 1:
-                print("Downloading the {:d}th part ...".format(i))
+                print(_("Downloading the {:d}th part ...").format(i))
             task = Thread(target=download.download, args=(u_f[0], u_f[1]))
             task.start()
             download.watch(u_f[1], task)
             task.join()
     except (KeyboardInterrupt, SystemExit):
-        print("Exit ...")
+        print(_("Exit ..."))
     except Exception:
-        print("Sorry! The program has a exception, and the author will modify it.")
+        print(_("Sorry! The program has a exception, and the author will modify it."))
     else:
         if url_len == len(urls):
             total_time = int(time.time() - start_time)
             print_result(download.get_tasks_info(), filename, filenames, total_time)
-

@@ -44,12 +44,6 @@ breakpoint_file = "breakpoint_transmission.info"
 directory_to_save_file = '~/Download'
 temp_directory_to_save_file = os.path.join(directory_to_save_file, "_TEMP_")
 
-_download_return_info = ["Can't open the URL: {}",
-                         'Cannot download with breakpoint transmission, and you may have a try to set the\nargument "breakpoint" to False',
-                         'Save the content of the URL without multithreading and breakpoint transmission',
-                         'Download the file with breakpoint transmission and the multithreading']
-
-
 def _handle_url(url):
     """
     Get the URL of the downloading file, and check its validity, that is, it must
@@ -146,20 +140,20 @@ def download(urls, filenames, temp_dir=temp_directory_to_save_file, task_number=
 
             rtn.append((url, filename, r))
             if result:
-                if r == 3:
-                    print(analyse_result(get_tasks_info(filename), filename), end="\n\n")
-                    continue
-
-                print("================================================================================")
                 if r == 0:
-                    print(_download_return_info[r].format(url))
+                    print("================================================================================")
+                    print(_("Can't open the URL: {}").format(url))
                     print("================================================================================\n")
                 elif r == 1:
-                    print(_download_return_info[r])
+                    print("================================================================================")
+                    print(_('Cannot download with breakpoint transmission, and you may have a try to set the\nargument "breakpoint" to False'))
                     print("================================================================================\n")
                 elif r == 2:
-                    print(_download_return_info[r])
                     print("================================================================================")
+                    print(_('Save the content of the URL without multithreading or multiproccess'))
+                    print("================================================================================")
+                    print(analyse_result(get_tasks_info(filename), filename), end="\n\n")
+                elif r == 3:
                     print(analyse_result(get_tasks_info(filename), filename), end="\n\n")
     return rtn
             
@@ -191,41 +185,43 @@ def _usage(program_name):
     Print the usage of the program.
     @program_name:  the name of this program
     """
-    print("")
-    print("Usage:")
-    print("      {} [-dhnv][-D dir][-N number][-b breakpoint] [URL] [filename]".format(program_name))
-    print("      Download what you want through the multiprocessing or the multithreading.\n")
+    print("Copyright (C) 2012 - 2013, xgfone")
+    print(_("Usage:"))
+    print("      {} [-dhn][-D dir][-N number][-b breakpoint] [URL] [filename]".format(program_name))
+    print(_("      Download what you want through the multiprocessing or the multithreading."), end='\n\n')
     print("-h")
-    print("    Print the help information\n")
+    print(_("    Print the help information"), end='\n\n')
     print("-n")
-    print("    Without condition, close BREAKPOINT TRANSMISSION\n")
-    print("-v")
-    print("    Print the information of the copyright.\n")
+    print(_("    Without condition, don't continue the last uncompleted task"), end='\n\n')
     print("-b breakpoint")
-    print("    Continue to breakpoint Transmission. Breakpoint information reads from the file \"breakpoint\"\n")
+    print(_("    Continue the last uncompleted task"), end='\n\n')
     print("-d directory")
-    print("    the directory to save the downloading file\n")
+    print(_("    the directory to save the downloading file"), end='\n\n')
     print("-N number")
-    print("    Download the file by number threads or processes\n")
+    print(_("    Download the file by number threads or processes"), end='\n\n')
     print("URL")
-    print("    the address where you will download what you want\n")
+    print(_("    the address where you will download what you want"), end='\n\n')
     print("filename")
-    print("    the name of the file used to save what you will download\n")
+    print(_("    the name of the file used to save what you will download"), end='\n\n')
     sys.exit(os.EX_OK)
 
 if __name__ == "__main__":
     import getopt
     import pickle
+    import local
+    import locale
     import http.client
     from urllib import error
-    
+    locale.setlocale(locale.LC_ALL, '')
+    local.install_gettext("messages")
+
     url = ""
     filename = ""
     tasks = task_number
 
     # Read the options of the command line.
     try:
-        options, args = getopt.getopt(sys.argv[1:], "nhvd:N:b:")
+        options, args = getopt.getopt(sys.argv[1:], "nhd:N:b:")
     except getopt.GetoptError:
         usage(os.path.split(sys.argv[0])[1])
     _breakpoint = False
@@ -241,14 +237,10 @@ if __name__ == "__main__":
             if os.path.lexists(val):
                 directory_to_save_file = val
             else:
-                print("{0} does not exist!".format(val))
+                print(_("{0} does not exist!").format(val))
                 sys.exit(os.EX_OK)
         elif "-n" == opt:
             pass
-        elif "-v" == opt:
-            print(os.path.split(sys.argv[0])[1], _version)
-            print("Copyright (C) 2012 xgfone")
-            sys.exit(os.EX_OK)
         else:
             _usage(os.path.split(sys.argv[0])[1])
     for opt, val in options:
@@ -279,22 +271,22 @@ if __name__ == "__main__":
     if length > 1:
         filename = args[1]
     if not url:
-        print("The URL can not be empty.")
+        print(_("The URL can not be empty."))
         sys.exit(os.EX_OK)
     url = handle_urls(url)
     filename = handle_filenames(filename, url)
     if os.path.lexists(filename[0]):
-        y_or_n = input("{} has existed. Do you download it again? (y or n) ".format(filename[0]))
+        y_or_n = input(_("{} has existed. Do you download it again? (y or n) ").format(filename[0]))
         while y_or_n not in ('y', 'Y', 'N', 'n'):
-            y_or_n = input("Please input (y or n): ")
+            y_or_n = input(_("Please input (y or n): "))
         if y_or_n in ('n', 'N'):
-            print("Exit ...\n")
+            print(_("Exit ..."), end='\n\n')
             sys.exit(os.EX_OK)
 
     try:
         download_with_watch(url, filename, breakpoint=False)
     except (SystemExit, KeyboardInterrupt):
-        print("Exit ...")
+        print(_("Exit ..."))
         #with open(breakpoint_file, 'wb') as f:
         #    sorted(tasks_info().items(), key=lambda i: i[0])
         #    pickle.dump(tasks_info, f)

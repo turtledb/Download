@@ -39,51 +39,51 @@ def result(filename, total_time, download_bytes, length=None):
     """
     rtn = '\n'
     if not download_bytes or not length:
-        rtn = ''.join((rtn, "{} completed. ".format(filename)))
+        rtn = ''.join((rtn, _("{} completed. ").format(filename)))
     else:
         if length == download_bytes:
-            rtn = ''.join((rtn, "{} complete normally. ".format(filename)))
+            rtn = ''.join((rtn, _("{} complete normally. ").format(filename)))
         else:
-            rtn = ''.join((rtn, "{} complete unnormally, and miss {:d} bytes. ".format(filename, length - download_bytes)))
+            rtn = ''.join((rtn, _("{} complete unnormally, and miss {:d} bytes. ").format(filename, length - download_bytes)))
 
     size = format_bytes(download_bytes)
     if size[0]:
-        rtn = ''.join((rtn, "Download {:.2f}TB, ".format(size[0])))
+        rtn = ''.join((rtn, _("Download {:.2f}TB, ").format(size[0])))
     elif size[1]:
-        rtn = ''.join((rtn, "Download {:.2f}GB, ".format(size[1])))
+        rtn = ''.join((rtn, _("Download {:.2f}GB, ").format(size[1])))
     elif size[2]:
-        rtn = ''.join((rtn, "Download {:.2f}MB, ".format(size[2])))
+        rtn = ''.join((rtn, _("Download {:.2f}MB, ").format(size[2])))
     elif size[3]:
-        rtn = ''.join((rtn, "Download {:.2f}KB, ".format(size[3])))
+        rtn = ''.join((rtn, _("Download {:.2f}KB, ").format(size[3])))
     else:
-        rtn = ''.join((rtn, "Download {:d}B, ".format(download_bytes)))
+        rtn = ''.join((rtn, _("Download {:d}B, ").format(download_bytes)))
 
     if total_time == 0:
-        rtn = ''.join((rtn, "Cost 0s\n"))
+        rtn = ''.join((rtn, _("Cost 0s"), '\n'))
         return rtn
 
     times = format_time(total_time)
     if times[0]:
-        rtn = ''.join((rtn, "Cost {0:d}d {1:d}h {2:d}m {3:d}s, ".format(times[0], times[1], times[2], times[3])))
+        rtn = ''.join((rtn, _("Cost {:d}d {:d}h {:d}m {:d}s, ").format(times[0], times[1], times[2], times[3])))
     elif times[1]:
-        rtn = ''.join((rtn, "Cost {0:d}h {1:d}m {2:d}s, ".format(times[1], times[2], times[3])))
+        rtn = ''.join((rtn, _("Cost {:d}h {:d}m {:d}s, ").format(times[1], times[2], times[3])))
     elif times[2]:
-        rtn = ''.join((rtn, "Cost {0:d}m {1:d}s, ".format(times[2], times[3])))
+        rtn = ''.join((rtn, _("Cost {:d}m {:d}s, ").format(times[2], times[3])))
     else:
-        rtn = ''.join((rtn, "Cost {0:d}s, ".format(times[3])))
+        rtn = ''.join((rtn, _("Cost {:d}s, ").format(times[3])))
 
     speed_byte = download_bytes / total_time
     speed = format_bytes(speed_byte)
     if speed[0]:
-        rtn = ''.join((rtn, "{:.2f} TB/S".format(speed[0])))
+        rtn = ''.join((rtn, _("{:.2f} TB/S").format(speed[0])))
     elif speed[1]:
-        rtn = ''.join((rtn, "{:.2f} GB/S".format(speed[1])))
+        rtn = ''.join((rtn, _("{:.2f} GB/S").format(speed[1])))
     elif speed[2]:
-        rtn = ''.join((rtn, "{:.2f} MB/S".format(speed[2])))
+        rtn = ''.join((rtn, _("{:.2f} MB/S").format(speed[2])))
     elif speed[3]:
-        rtn = ''.join((rtn, "{:.2f} KB/S".format(speed[3])))
+        rtn = ''.join((rtn, _("{:.2f} KB/S").format(speed[3])))
     else:
-        rtn = ''.join((rtn, "{:.2f} B/S".format(speed_byte)))
+        rtn = ''.join((rtn, _("{:.2f} B/S").format(speed_byte)))
     return rtn
 
 def analyse_result(tasks_info, filename):

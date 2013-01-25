@@ -11,56 +11,56 @@ def _print_watch_result(filename, downloaded_number, number, interval_time, used
     if total_size == 0:
         rtn_byte = result_analyse.format_bytes(downloaded_number)
         if rtn_byte[0]:
-            rtn = ''.join((rtn, "{} downloaded {:2f}TB, ".format(filename, rtn_byte[0])))
+            rtn = ''.join((rtn, _("{} downloaded {:.2f} TB, ").format(filename, rtn_byte[0])))
         elif rtn_byte[1]:
-            rtn = ''.join((rtn, "{} downloaded {:2f}GB, ".format(filename, rtn_byte[1])))
+            rtn = ''.join((rtn, _("{} downloaded {:.2f} GB, ").format(filename, rtn_byte[1])))
         elif rtn_byte[2]:
-            rtn = ''.join((rtn, "{} downloaded {:2f}MB, ".format(filename, rtn_byte[2])))
+            rtn = ''.join((rtn, _("{} downloaded {:.2f} MB, ").format(filename, rtn_byte[2])))
         elif rtn_byte[3]:
-            rtn = ''.join((rtn, "{} downloaded {:2f}KB, ".format(filename, rtn_byte[3])))
+            rtn = ''.join((rtn, _("{} downloaded {:.2f} KB, ").format(filename, rtn_byte[3])))
         else:
-            rtn = ''.join((rtn, "{} downloaded {:d}B, ".format(filename, downloaded_number)))
+            rtn = ''.join((rtn, _("{} downloaded {:d}B, ").format(filename, downloaded_number)))
     else:
-        rtn = ''.join((rtn, "{} completes({:05.2f}%), ".format(filename, downloaded_number*100/total_size)))
+        rtn = ''.join((rtn, (_("{} completes({:05.2f}%), ")).format(filename, downloaded_number*100/total_size)))
 
     speed_byte = int(number / interval_time)
     speed = result_analyse.format_bytes(speed_byte)
     rtn_time = result_analyse.format_time(used_time)
     
     if rtn_time[0]:
-        rtn = ''.join((rtn, "cost {:d}d{:d}h{:d}m{:d}s, ".format(rtn_time[0], rtn_time[1], rtn_time[2], rtn_time[3])))
+        rtn = ''.join((rtn, _("Cost {:d}d {:d}h {:d}m {:d}s, ").format(rtn_time[0], rtn_time[1], rtn_time[2], rtn_time[3])))
     elif rtn_time[1]:
-        rtn = ''.join((rtn, "cost {:d}h{:d}m{:d}s, ".format(rtn_time[1], rtn_time[2], rtn_time[3])))
+        rtn = ''.join((rtn, _("Cost {:d}h {:d}m {:d}s, ").format(rtn_time[1], rtn_time[2], rtn_time[3])))
     elif rtn_time[2]:
-        rtn = ''.join((rtn, "cost {:d}m{:d}s, ".format(rtn_time[2], rtn_time[3])))
+        rtn = ''.join((rtn, _("Cost {:d}m {:d}s, ").format(rtn_time[2], rtn_time[3])))
     else:
-        rtn = ''.join((rtn, "cost {:d}s, ".format( rtn_time[3])))
+        rtn = ''.join((rtn, _("Cost {:d}s, ").format( rtn_time[3])))
         
     if total_size != 0:
         if speed_byte == 0:
-            rtn = ''.join((rtn, "unknown remained time,"))
+            rtn = ''.join((rtn, _("Unknown remained time,")))
         else:
             remain_bytes = total_size - downloaded_number
             remain_time  = result_analyse.format_time(int(remain_bytes / speed_byte))
             if remain_time[0]:
-                rtn = ''.join((rtn, "remain {:d}d{:d}h{:d}m{:d}s, ".format(remain_time[0], remain_time[1], remain_time[2], remain_time[3])))
+                rtn = ''.join((rtn, _("Remain {:d}d {:d}h {:d}m {:d}s, ").format(remain_time[0], remain_time[1], remain_time[2], remain_time[3])))
             elif remain_time[1]:
-                rtn = ''.join((rtn, "remain {:d}h{:d}m{:d}s, ".format(remain_time[1], remain_time[2], remain_time[3])))
+                rtn = ''.join((rtn, _("Remain {:d}h {:d}m {:d}s, ").format(remain_time[1], remain_time[2], remain_time[3])))
             elif remain_time[2]:
-                rtn = ''.join((rtn, "remain {:d}m{:d}s, ".format(remain_time[2], remain_time[3])))
+                rtn = ''.join((rtn, _("Remain {:d}m {:d}s, ").format(remain_time[2], remain_time[3])))
             else:
-                rtn = ''.join((rtn, "remain {:d}s, ".format(remain_time[3])))
+                rtn = ''.join((rtn, _("Remain {:d}s, ").format(remain_time[3])))
         
     if speed[0]:
-        rtn = ''.join((rtn, "{:.2f}TB/S".format(speed[0])))
+        rtn = ''.join((rtn, _("{:.2f} TB/S").format(speed[0])))
     elif speed[1]:
-        rtn = ''.join((rtn, "{:.2f}GB/S".format(speed[1])))
+        rtn = ''.join((rtn, _("{:.2f} GB/S").format(speed[1])))
     elif speed[2]:
-        rtn = ''.join((rtn, "{:.2f}MB/S".format(speed[2])))
+        rtn = ''.join((rtn, _("{:.2f} MB/S").format(speed[2])))
     elif speed[3]:
-        rtn = ''.join((rtn, "{:.2f}KB/S".format(speed[3])))
+        rtn = ''.join((rtn, _("{:.2f} KB/S").format(speed[3])))
     else:
-        rtn = ''.join((rtn, "{:.2f}B/S".format(speed_byte)))
+        rtn = ''.join((rtn, _("{:.2f} B/S").format(speed_byte)))
     
     return rtn
 
