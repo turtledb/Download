@@ -24,7 +24,7 @@ Requirement
 
 Use
 
-    download [-dhnv][-D dir][-N number][-b breakpoint] [URL] [filename]
+    download [-dhn][-D dir][-N number][-b breakpoint] [URL] [filename]
     flv_download [-bhsH] [-n NUM] [-N NUM] [URL] [filename]
  
 Example
