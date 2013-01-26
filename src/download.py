@@ -146,6 +146,7 @@ def download(urls, filenames, temp_dir=temp_directory_to_save_file, task_number=
 
             rtn.append((url, filename, r))
             if result:
+                print()
                 if r == 0:
                     print("================================================================================")
                     print(_("Can't open the URL: {}").format(url))

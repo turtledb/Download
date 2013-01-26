@@ -270,7 +270,7 @@ if __name__ == "__main__":
     
     # Check whether there are other kind of videos.
     if not urls:
-        parser.check_others(opt_url)
+        parser.check_others()
         sys.exit(os.EX_OK)
         
     # Correct the filename.
@@ -339,10 +339,13 @@ if __name__ == "__main__":
             download.watch(u_f[1], task)
             task.join()
     except (KeyboardInterrupt, SystemExit):
+        print()
         print(_("Exit ..."))
     except Exception:
+        print()
         print(_("Sorry! The program has a exception, and the author will modify it."))
     else:
         if url_len == len(urls):
             total_time = int(time.time() - start_time)
+            print()
             print_result(download.get_tasks_info(), filename, filenames, total_time)
