@@ -28,18 +28,17 @@ def get_tasks_info(filenames=None):
     """
     Return a dict representing the information of downloading tasks.
     The key is the name of the file you want to download, and the value is the information
-    about this file. The value is a list containing five elements: the first element is 
+    about this file. The value is a list containing six elements: the first element is 
     bool, and True representing it uses the multithreading, and False not; the second is
     a string, representing the URL where this file locates; the third is a integer, 
     representing the total time(second) to download this file; the fourth is also a integer,
     representing the total size(Byte) of this file if the first is True, otherwise the size(Byte)
     you have downloaded. The fifth is a dict, representing the information of all the threads;
     and the key is a the name of the thread, and the value is a list, that is, [temp_filename,
-    start_position, end_position, length, downloaded_size, etag, last_modified]. Thereinto,
-    "temp_filename" is the name of the file used to save temporarily what you have downloaded;
-    and "length" == "end_position" - "start_position" + 1. But if the first element is False, the
-    fifth is None.
-
+    start_position, end_position, length, downloaded_size]. Thereinto, "temp_filename" is the
+    name of the file used to save temporarily what you have downloaded; and "length" == 
+    "end_position" - "start_position" + 1. But if the first element is False, the fifth is None.
+    And the sixth is the etag of the file, and the last is the last modified datetime of that.
     For example:
     {"/home/user/Download/example1.mp4": [True, "http://www.example.com/example1.mp4", 0, 12345678,
                                          {"thread_1": ["/tmp/example1_01.mp4", 0, 9999999, 10000000, 10000000],
@@ -113,7 +112,7 @@ class _ThreadDownloadTask(Thread):
         # breakpoint transmission
         if self.length:
             _thread_lock.acquire()
-            _tasks_information[self.filename][4][self.name] = [self.file.name, self.startpos, self.endpos, self.length, self.file.tell()]
+            _tasks_information[self.filename][4][self.name] = [self.file.name, self.startpos, self.endpos, self.length, self.file.tell(), False]
             _thread_lock.release()
 
             if self.startpos > self.endpos:

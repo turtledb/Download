@@ -1,0 +1,336 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2013 xgfone
+# xgfone <xgfone@126.com>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.2\n"
+"POT-Creation-Date: 2013-03-02 20:40+CST\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: xgfone <xgfone@126.com>\n"
+"Language-Team: xgfone <xgfone@126.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: utf-8\n"
+"Generated-By: pygettext.py 1.5\n"
+
+#: download.py:152
+msgid "Can't open the URL: {}"
+msgstr "不能打开URL：{}"
+
+#: download.py:156
+msgid ""
+"Cannot download with breakpoint transmission, and you may have a try to set "
+"the\n"
+"argument \"breakpoint\" to False"
+msgstr ""
+"不能使用断点续传，你（程序作者）可以尝试把下载参数breakpoint设置成False"
+
+#: download.py:160
+msgid "Save the content of the URL without multithreading or multiproccess"
+msgstr "不使用多线程多进程保存URL的内容"
+
+#: download.py:196 flv_download.py:195
+msgid "Usage:"
+msgstr "用法："
+
+#: download.py:198
+msgid ""
+"      Download what you want through the multiprocessing or the "
+"multithreading."
+msgstr "      使用多进程或多线程下载你想要的"
+
+#: download.py:200
+msgid "    Print the help information"
+msgstr "    打印帮助信息"
+
+#: download.py:202
+msgid "    Without condition, don't continue the last uncompleted task"
+msgstr "    无条件地不再下载上次未完成的任务"
+
+#: download.py:204
+msgid "    Continue the last uncompleted task"
+msgstr "    继续下载上次未完成的任务"
+
+#: download.py:206
+msgid "    the directory to save the downloading file"
+msgstr "    保存下载文件的目录"
+
+#: download.py:208
+msgid "    Download the file by number threads or processes"
+msgstr "    下载文件的线程或进程的数目"
+
+#: download.py:210
+msgid "    the address where you will download what you want"
+msgstr "    你想要下载的文件所在的URL地址"
+
+#: download.py:212
+msgid "    the name of the file used to save what you will download"
+msgstr "    保存下载的内容的文件名"
+
+#: download.py:247
+msgid "{0} does not exist!"
+msgstr "{0}不存在！"
+
+#: download.py:281
+msgid "The URL can not be empty."
+msgstr "URL不能为空。"
+
+#: download.py:286 flv_download.py:299
+msgid "{} has existed. Do you download it again? (y or n) "
+msgstr "{}文件已经存在，是否重新下载？（y或n） "
+
+#: download.py:288 flv_download.py:301
+msgid "Please input (y or n): "
+msgstr "请重新输入（y或n）："
+
+#: download.py:290 download.py:296 flv_download.py:303 flv_download.py:343
+msgid "Exit ..."
+msgstr "退出 ..."
+
+#: flv_download.py:48
+msgid "basic"
+msgstr "标清"
+
+#: flv_download.py:48
+msgid "high"
+msgstr "高清"
+
+#: flv_download.py:48
+msgid "super"
+msgstr "超清"
+
+#: flv_download.py:49
+msgid "There is not the {} video."
+msgstr "没有{}视频。"
+
+#: flv_download.py:58
+msgid "There are also not the high video and the super."
+msgstr "也没有高清和超清视频。"
+
+#: flv_download.py:60
+msgid "There are also not the basic video and the super."
+msgstr "也没有标清和超清视频。"
+
+#: flv_download.py:62
+msgid "There are also not the basic video and the high."
+msgstr "也没有标清和高清视频。"
+
+#: flv_download.py:66
+msgid "There is the {} video, and you can use the -{} option."
+msgstr "有{}视频，你可以使用-{}选项。"
+
+#: flv_download.py:71
+msgid "There is the {} video(the option: -{}), and "
+msgstr "有{}（选项：-{}）和"
+
+#: flv_download.py:75
+msgid "the {} video(the option: -{})."
+msgstr "{}（选项：-{}）视频。"
+
+#: flv_download.py:183
+msgid ""
+"Analysing the information of the downloaded file failed, because download "
+"has error."
+msgstr "由于下载有误，所以分析下载结果失败。"
+
+#: flv_download.py:197
+msgid "      Download FLV video from other video websites."
+msgstr "      从其它视频网站下载FLV视频。"
+
+#: flv_download.py:199
+msgid "    Print the help information."
+msgstr "    打印帮助信息"
+
+#: flv_download.py:201
+msgid "    Download the basic vedio."
+msgstr "    下载标清视频"
+
+#: flv_download.py:203
+msgid "    Download the high vedio."
+msgstr "    下载高清视频"
+
+#: flv_download.py:205
+msgid "    Download the super vedio."
+msgstr "    下载超清视频"
+
+#: flv_download.py:207
+msgid "    Download from NUMth part to the end."
+msgstr "    从第NUM部分开始连续下载"
+
+#: flv_download.py:209
+msgid "    Only download NUMth part."
+msgstr "    只下载第NUM部分"
+
+#: flv_download.py:211
+msgid "    the address where you will download what you want."
+msgstr "    视频所在的URL地址"
+
+#: flv_download.py:213
+msgid "    the name of the file used to save what you will download."
+msgstr "    保存视频的文件名"
+
+#: flv_download.py:259
+msgid "Please give the URL."
+msgstr "请给出URL地址"
+
+#: flv_download.py:265
+msgid "Parse the URL ..."
+msgstr "解析URL ..."
+
+#: flv_download.py:268
+msgid "Can't parse the URL: {}"
+msgstr "不能解析URL：{}"
+
+#: flv_download.py:310
+msgid "This file has totally one part."
+msgstr "该文件总共只有1部分"
+
+#: flv_download.py:317
+msgid "This file is divided into {:d} parts."
+msgstr "该文件被分隔成{:d}部分"
+
+#: flv_download.py:331
+msgid "Start to download ..."
+msgstr "开始下载 ..."
+
+#: flv_download.py:336
+msgid "Downloading the {:d}th part ..."
+msgstr "开始下载第{:d}部分 ..."
+
+#: flv_download.py:346
+msgid "Sorry! The program has a exception, and the author will modify it."
+msgstr "对不超！程序有个异常，作者将会尽快修复它。"
+
+#: result_analyse.py:42
+msgid "{} completed. "
+msgstr "{} 完成，"
+
+#: result_analyse.py:45
+msgid "{} complete normally. "
+msgstr "{} 正常完成，"
+
+#: result_analyse.py:47
+msgid "{} complete unnormally, and miss {:d} bytes. "
+msgstr "{} 非正常完成，缺失{:d}个字节，"
+
+#: result_analyse.py:51
+msgid "Download {:.2f}TB, "
+msgstr "下载了 {:.2f}TB，"
+
+#: result_analyse.py:53
+msgid "Download {:.2f}GB, "
+msgstr "下载了 {:.2f}GB，"
+
+#: result_analyse.py:55
+msgid "Download {:.2f}MB, "
+msgstr "下载了 {:.2f}MB，"
+
+#: result_analyse.py:57
+msgid "Download {:.2f}KB, "
+msgstr "下载了 {:.2f}KB，"
+
+#: result_analyse.py:59
+msgid "Download {:d}B, "
+msgstr "下载了 {:.2f}B，"
+
+#: result_analyse.py:62
+msgid "Cost 0s"
+msgstr "用时 0秒"
+
+#: result_analyse.py:67 watch.py:35
+msgid "Cost {:d}d {:d}h {:d}m {:d}s, "
+msgstr "用时 {:d}天{:d}时{:d}分{:d}秒，"
+
+#: result_analyse.py:69 watch.py:37
+msgid "Cost {:d}h {:d}m {:d}s, "
+msgstr "用时 {:d}时{:d}分{:d}秒，"
+
+#: result_analyse.py:71 watch.py:39
+msgid "Cost {:d}m {:d}s, "
+msgstr "用时 {:d}分{:d}秒，"
+
+#: result_analyse.py:73 watch.py:41
+msgid "Cost {:d}s, "
+msgstr "用时 {:d}秒，"
+
+#: result_analyse.py:78 watch.py:59
+msgid "{:.2f} TB/S"
+msgstr "{:.2f} TB/S"
+
+#: result_analyse.py:80 watch.py:61
+msgid "{:.2f} GB/S"
+msgstr "{:.2f} GB/S"
+
+#: result_analyse.py:82 watch.py:63
+msgid "{:.2f} MB/S"
+msgstr "{:.2f} MB/S"
+
+#: result_analyse.py:84 watch.py:65
+msgid "{:.2f} KB/S"
+msgstr "{:.2f} KB/S"
+
+#: result_analyse.py:86 watch.py:67
+msgid "{:.2f} B/S"
+msgstr "{:.2f} B/S"
+
+#: watch.py:12
+msgid "{} has download, integrating the file ..."
+msgstr "{} 已经下载完成，正在整合文件 ..."
+
+#: watch.py:18
+#, fuzzy
+msgid "{} downloaded {:.2f} TB, "
+msgstr "{} 已下载 {:.2f}TB，"
+
+#: watch.py:20
+#, fuzzy
+msgid "{} downloaded {:.2f} GB, "
+msgstr "{} 已下载 {:.2f}GB，"
+
+#: watch.py:22
+#, fuzzy
+msgid "{} downloaded {:.2f} MB, "
+msgstr "{} 已下载 {:.2f}MB，"
+
+#: watch.py:24
+#, fuzzy
+msgid "{} downloaded {:.2f} KB, "
+msgstr "{} 已下载 {:.2f}KB，"
+
+#: watch.py:26
+msgid "{} downloaded {:d}B, "
+msgstr "{} 已下载 {:.2f}B，"
+
+#: watch.py:28
+msgid "{} completes({:05.2f}%), "
+msgstr "{} 完成（{:05.2f}%），"
+
+# msgid "cost {:d}d{:d}h{:d}m{:d}s, "
+# msgstr "已用时 {:d}天{:d}时{:d}分{:d}秒，"
+# msgid "cost {:d}h{:d}m{:d}s, "
+# msgstr "已用时 {:d}时{:d}分{:d}秒，"
+# msgid "cost {:d}m{:d}s, "
+# msgstr "已用时 分{:d}秒，"
+# msgid "cost {:d}s, "
+# msgstr "已用时 {:d}秒，"
+#: watch.py:45
+msgid "Unknown remained time,"
+msgstr "未知剩余时间，"
+
+#: watch.py:50
+msgid "Remain {:d}d {:d}h {:d}m {:d}s, "
+msgstr "剩余 {:d}天{:d}时{:d}分{:d}秒，"
+
+#: watch.py:52
+msgid "Remain {:d}h {:d}m {:d}s, "
+msgstr "剩余 {:d}时{:d}分{:d}秒，"
+
+#: watch.py:54
+msgid "Remain {:d}m {:d}s, "
+msgstr "剩余 {:d}分{:d}秒，"
+
+#: watch.py:56
+msgid "Remain {:d}s, "
+msgstr "剩余 {:d}秒，"

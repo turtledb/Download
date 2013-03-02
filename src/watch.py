@@ -6,8 +6,12 @@ import downloader_handle
 
 __all__ = ["watch", "watch_files"]
 
-def _print_watch_result(filename, downloaded_number, number, interval_time, used_time, total_size):
+def _print_watch_result(filename, downloaded_number, number, interval_time, used_time, total_size, finish=False):
     rtn = '\r'
+    if finish:
+        rtn += _('{} has download, integrating the file ...').format(filename)
+        return rtn
+
     if total_size == 0:
         rtn_byte = result_analyse.format_bytes(downloaded_number)
         if rtn_byte[0]:
@@ -104,15 +108,22 @@ def watch(filename, download_thread):
         
         if total_size:
             downloaded_number = sum(map(lambda v: v[4], tasks_info[filename][4].values()))
+            is_finish = False
+            for v in tasks_info[filename][4].values():
+                if v[3] == v[4]:
+                    is_finish = True
+                    break
         else:
             downloaded_number = tasks_info[filename][3]
+            is_finish = False
             
         number = downloaded_number - last_downloaded_number
         last_downloaded_number = downloaded_number
 
+
         print('\r', ' ' * last_output_len, end='')
-        rtn = _print_watch_result(filename, downloaded_number, number, sleep_time, total_time, total_size)
-        last_output_len = len(rtn)
+        rtn = _print_watch_result(filename, downloaded_number, number, sleep_time, total_time, total_size, is_finish)
+        last_output_len = len(rtn) + 25
         print(rtn, end='')
         time.sleep(real_sleep_time)
 
@@ -138,14 +149,21 @@ def watch_files(filename, filenames, download_thread, total_size):
         for f in filenames:
             if tasks_info[f][0]:
                 downloaded_number += sum(map(lambda v: v[4], tasks_info[f][4].values()))
+                is_finish = False
+                for v in tasks_info[filename][4].values():
+                    if v[3] == v[4]:
+                        is_finish = True
+                        break
             else:
                 downloaded_number += tasks_info[f][3]
+                is_finish = False
+
         number = downloaded_number - last_downloaded_number
         last_downloaded_number = downloaded_number
 
         print('\r', ' ' * last_output_len, end='')
-        rtn = _print_watch_result(filename, downloaded_number, number, sleep_time, total_time, total_size)
-        last_output_len = len(rtn)
+        rtn = _print_watch_result(filename, downloaded_number, number, sleep_time, total_time, total_size, is_finish)
+        last_output_len = len(rtn) + 25
         print(rtn, end='')
         time.sleep(real_sleep_time)
 
