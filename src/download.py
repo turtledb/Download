@@ -5,21 +5,31 @@
 #           you want to download has changed. Please download it again.
 #
 
+from __future__ import print_function
+
 import re
 import os
 import sys
 import time
 import shutil
+
 import watch
+import py3or2
 import result_analyse
 import downloader_handle
-from urllib.parse import urlparse
+
+if py3or2.PY3:
+    from urllib.parse import urlparse
+else:
+    from urlparse import urlparse
+    input = raw_input
+
 try:
     from threading import Thread
 except ImportError:
     from dummy_threading import Thread
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"
 __author__  = "xgfone <xgfone@126.com>"
 __copyright__ = "Copyright (C) 2012 - 2013, xgfone"
 __contributors__ = []
@@ -27,7 +37,7 @@ __license__ = "MIT"
 
 __all__ = ["install_downloader", "is_default_tasks_information", "install_get_tasks_info",
            "get_tasks_info", "watch", "watch_files", "handle_filenames", "handle_urls",
-           "download", "download_with_watch", "analyse_result", "result", "format_time",         
+           "download", "download_with_watch", "analyse_result", "result", "format_time",
            "format_bytes"]
 
 install_downloader = downloader_handle.install_downloader
@@ -50,6 +60,7 @@ breakpoint_file = "breakpoint_transmission.info"
 directory_to_save_file = '~/Download'
 temp_directory_to_save_file = os.path.join(directory_to_save_file, "_TEMP_")
 
+
 def _handle_url(url):
     """
     Get the URL of the downloading file, and check its validity, that is, it must
@@ -61,6 +72,7 @@ def _handle_url(url):
         url = ''.join(('http://', url.lstrip(' \t\n')))
     return url
 
+
 def handle_urls(urls):
     if not isinstance(urls, (list, tuple)):
         return [_handle_url(urls)]
@@ -69,6 +81,7 @@ def handle_urls(urls):
         for u in urls:
             rtn.append(_handle_url(u))
         return rtn
+
 
 def _handle_filename(filename, url=None):
     """
@@ -94,6 +107,7 @@ def _handle_filename(filename, url=None):
     filename = os.path.abspath(filename)
     return filename
 
+
 def handle_filenames(filenames, urls=None):
     if not isinstance(filenames, (list, tuple)):
         if urls:
@@ -111,6 +125,7 @@ def handle_filenames(filenames, urls=None):
             rtn.append(_handle_filename(f, urls))
         return rtn
 
+
 def download(urls, filenames, temp_dir=temp_directory_to_save_file, task_number=task_number,
              breakpoint=True, result=True, downloader=None, get_task_info=None):
     temp_dir = os.path.abspath(os.path.expanduser(temp_dir))
@@ -120,7 +135,7 @@ def download(urls, filenames, temp_dir=temp_directory_to_save_file, task_number=
         pass
     urls = handle_urls(urls)
     filenames = handle_filenames(filenames, urls)
-    
+
     if downloader is not None:
         install_downloader(downloader)
     if get_task_info is not None:
@@ -149,7 +164,7 @@ def download(urls, filenames, temp_dir=temp_directory_to_save_file, task_number=
                 print()
                 if r == 0:
                     print("================================================================================")
-                    print(_("Can't open the URL: {}").format(url))
+                    print(_("Can't open the URL: {0}").format(url))
                     print("================================================================================\n")
                 elif r == 1:
                     print("================================================================================")
@@ -163,14 +178,15 @@ def download(urls, filenames, temp_dir=temp_directory_to_save_file, task_number=
                 elif r == 3:
                     print(analyse_result(get_tasks_info(filename), filename), end="\n\n")
     return rtn
-            
-def download_with_watch(urls, filenames, temp_dir=temp_directory_to_save_file, task_number=task_number, 
+
+
+def download_with_watch(urls, filenames, temp_dir=temp_directory_to_save_file, task_number=task_number,
                         breakpoint=True, result=True, downloader=None, get_task_info=None):
     if downloader is not None:
         install_downloader(downloader)
     if get_task_info is not None:
         install_get_tasks_info(get_task_info)
-    
+
     if not isinstance(urls, (list, tuple)) or not isinstance(filenames, (list, tuple)):
         task = Thread(target=download, args=(urls, filenames, temp_dir, task_number, breakpoint, result))
         task.start()
@@ -183,10 +199,12 @@ def download_with_watch(urls, filenames, temp_dir=temp_directory_to_save_file, t
         watch(filename, task)
     return
 
+
 # Install the default downloader and the default get_tasks_info
 install_downloader()
 install_get_tasks_info()
-            
+
+
 def _usage(program_name):
     """
     Print the usage of the program.
@@ -194,7 +212,7 @@ def _usage(program_name):
     """
     print(__copyright__)
     print(_("Usage:"))
-    print("      {} [-dhn][-D dir][-N number][-b breakpoint] [URL] [filename]".format(program_name))
+    print("      {0} [-dhn][-D dir][-N number][-b breakpoint] [URL] [filename]".format(program_name))
     print(_("      Download what you want through the multiprocessing or the multithreading."), end='\n\n')
     print("-h")
     print(_("    Print the help information"), end='\n\n')
@@ -212,13 +230,14 @@ def _usage(program_name):
     print(_("    the name of the file used to save what you will download"), end='\n\n')
     sys.exit(os.EX_OK)
 
+
 if __name__ == "__main__":
     import getopt
     import pickle
     import local
     import locale
-    import http.client
-    from urllib import error
+    #import http.client
+    #from urllib import error
     locale.setlocale(locale.LC_ALL, '')
     local.install_gettext("messages")
 
@@ -255,7 +274,7 @@ if __name__ == "__main__":
             breakpoint_file = None
             break
 
-    # If the breakpoint transmission file exists, ignore the original download, 
+    # If the breakpoint transmission file exists, ignore the original download,
     # and continue the last breakpoint transmission.
     #if breakpoint_file is not None and os.access(breakpoint_file, os.F_OK | os.R_OK):
     #    rtn = {}
@@ -283,7 +302,7 @@ if __name__ == "__main__":
     url = handle_urls(url)
     filename = handle_filenames(filename, url)
     if os.path.lexists(filename[0]):
-        y_or_n = input(_("{} has existed. Do you download it again? (y or n) ").format(filename[0]))
+        y_or_n = input(_("{0} has existed. Do you download it again? (y or n) ").format(filename[0]))
         while y_or_n not in ('y', 'Y', 'N', 'n'):
             y_or_n = input(_("Please input (y or n): "))
         if y_or_n in ('n', 'N'):
@@ -297,5 +316,5 @@ if __name__ == "__main__":
         #with open(breakpoint_file, 'wb') as f:
         #    sorted(tasks_info().items(), key=lambda i: i[0])
         #    pickle.dump(tasks_info, f)
-        
+
 

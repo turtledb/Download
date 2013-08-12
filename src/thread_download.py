@@ -1,15 +1,23 @@
 # Copyright (c) xgfone 2012-2013
 # -*- coding: utf-8 -*-
+from __future__ import division
 
 import os
 import time
 import copy
-import urllib.error
-from urllib.request import Request, urlopen
+
 try:
     from threading import Thread, RLock
 except ImportError:
     from dummy_threading import Thread, RLock
+
+import py3or2
+if py3or2.PY3:
+    from urllib.error import URLError
+    from urllib.request import Request, urlopen
+else:
+    from urllib2 import Request, urlopen, URLError
+
 
 __all__ = ["thread_download", "get_tasks_info"]
 _tasks_information = {}
@@ -23,6 +31,7 @@ _thread_number = 10  # the number of the thread used to download the file
 _max_thread_number = 20       # the maximal number of the thread or the process permited
 _thread_lock = RLock()        # the lock used to visit the global variable among threads
 ######################################## END ###########################################
+
 
 def get_tasks_info(filenames=None):
     """
@@ -67,18 +76,20 @@ def get_tasks_info(filenames=None):
                 pass
     _thread_lock.release()
     return rtn
-                
+
+
 def _retry_connect(url, number=3):
     while number > 0:
         try:
             connect = urlopen(url)
-        except urllib.error.URLError:
+        except URLError:
             number -= 1
         else:
             if connect is None:
                 return None
             return connect
     return None
+
 
 class _ThreadDownloadTask(Thread):
     """
@@ -102,6 +113,7 @@ class _ThreadDownloadTask(Thread):
             self.length = self.endpos - self.startpos + 1
         else:
             self.length   = None
+
 
     def run(self):
         """
@@ -136,7 +148,8 @@ class _ThreadDownloadTask(Thread):
             _thread_lock.release()
             content = connect.read(_bytes_per_time)
         connect.close()
-        
+
+
 def _not_breakpoint_download(url, filename):
     _thread_lock.acquire()
     _tasks_information[filename][0] = False
@@ -152,6 +165,7 @@ def _not_breakpoint_download(url, filename):
     _thread_lock.acquire()
     _tasks_information[filename][2] = int(end_time - start_time)
     _thread_lock.release()
+
 
 def _breakpoint_download(url, filename, temp_dir, number, length):
     _thread_lock.acquire()

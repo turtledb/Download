@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# REQUIREMENT: 
+# REQUIREMENT:
 #           (1)Python3 --- an interpreter programming language, >= 3.
 #           (2)BeautifulSoup4 --- a python package, >= 4.
 #           (3)download ---- a module, which downloads a file through the multiprocessing
@@ -9,14 +9,15 @@
 #
 # FUNCTION: Download the flv video coming from www.youku.com.
 #
-# PROBLEM: 
-#           (1) If it can't download what you want, please first check whether the URL 
+# PROBLEM:
+#           (1) If it can't download what you want, please first check whether the URL
 #               which you gave is probably parsed by www.flvcd.com. If parsed, please
 #               contact me; if not, it indicates that what you want can't be downloaded.
 #           (2) The class "FLVXZ" can't work successfully. urllib.request.urlopen can't
 #               acquire the whole result website. So it must use a especial way. I hope
 #               someone to solve it. I will give the interface later.
 #
+from __future__ import print_function
 
 import re
 import os
@@ -24,16 +25,24 @@ import sys
 import bs4
 import time
 import getopt
-from urllib import error
-from urllib.request import urlopen
-from urllib.parse import urlparse
+
+import py3or2
 import download
+if py3or2.PY3:
+    from urllib.error import URLError
+    from urllib.request import urlopen
+    from urllib.parse import urlparse
+else:
+    from urllib2 import URLError, urlopen
+    from urlparse import urlparse
+
 try:
     from threading import Thread
 except ImportError:
     from dummy_threading import Thread
 
-__version__ = "0.2.1"
+
+__version__ = "0.2.2"
 __author__  = "xgfone <xgfone@126.com>"
 __copyright__ = "Copyright (C) 2012 - 2013, xgfone"
 __contributors__ = []
@@ -42,11 +51,12 @@ __license__ = "MIT"
 directory_to_save_file = download.directory_to_save_file
 temp_download_directory = download.temp_directory_to_save_file
 
+
 def _check_others(basic_high_super, variety):
     index_ = (0, 1, 2)
     opt = ('b', 'H', 's')
     content = (_("basic"), _("high"), _("super"))
-    print(_("There is not the {} video.").format(content[variety]))
+    print(_("There is not the {0} video.").format(content[variety]))
 
     tmp_ = 0
     for i in index_:
@@ -63,18 +73,19 @@ def _check_others(basic_high_super, variety):
     elif tmp_ == 1:
         for i in index_:
             if basic_high_super[i]:
-                print(_("There is the {} video, and you can use the -{} option.").format(content[i], opt[i]))
+                print(_("There is the {0} video, and you can use the -{1} option.").format(content[i], opt[i]))
                 break
     elif tmp_ == 2:
         for i in index_:
             if basic_high_super[i]:
-                print(_("There is the {} video(the option: -{}), and ").format(content[i], opt[i]), end='')
+                print(_("There is the {0} video(the option: -{1}), and ").format(content[i], opt[i]), end='')
                 break
         for j in index_:
             if j != i and basic_high_super[j]:
-                print(_("the {} video(the option: -{}).").format(content[i], opt[i]))
+                print(_("the {0} video(the option: -{1}).").format(content[i], opt[i]))
                 break
     print()
+
 
 class FLVCD:
     """
@@ -90,6 +101,7 @@ class FLVCD:
                             'http://www.flvcd.com/parse.php?flag=one&format=super&kw=', # super
                             ]
 
+
     def parse_url(self):
         try:
             con = urlopen(''.join((self._search_url[self._request_variety], self.url)))
@@ -97,18 +109,19 @@ class FLVCD:
             con.close()
             url_nodes = soup.body.find_all(class_= "mn STYLE4")
             url_a = url_nodes[2].find_all("a")
-        except (error.URLError, IndexError):
+        except (URLError, IndexError):
             return None
-        
+
         self._urls = []
         for u in url_a:
             href = u.get('href')
             if href and re.match('[Hh][Tt][Tt][Pp][Ss]?://', href):
                 self._urls.append(href)
         return self._urls
-    
+
+
     def check_others(self):
-        basic_high_super = [False, False, False] 
+        basic_high_super = [False, False, False]
         for i in (0, 1, 2):
             if self.variety != i:
                 self._request_variety = i
@@ -116,6 +129,7 @@ class FLVCD:
                 if urls:
                     basic_high_super[i] = True
         _check_others(basic_high_super, self.variety)
+
 
 class FLVXZ:
     """
@@ -127,7 +141,8 @@ class FLVXZ:
         self._urls = [[], [], []]
         self._search_url = "http://www.flvxz.com/?url="
         self._re = re.compile("[超高标]清.*")
-        
+
+
     def parse_url(self):
         try:
             con = urlopen(''.join((self._search_url, self.url)))
@@ -135,7 +150,7 @@ class FLVXZ:
             con.close()
             url_nodes = soup.body.find(id="result")
             url_br = url_nodes.find_all("br")
-        except (error.URLError, IndexError):
+        except (URLError, IndexError):
             return None
 
         current_kind = 0
@@ -154,8 +169,9 @@ class FLVXZ:
                 url = br.a.get('href')
                 if url:
                     self._urls[current_kind].append(url)
-                    
+
         return self._urls[self.variety]
+
 
     def check_others(self):
         basic_high_super = [False, False, False]
@@ -185,7 +201,8 @@ def print_result(tasks_info, filename, filenames, total_time):
         if not _total_time:
             _total_time = total_time
         print(download.result(filename, _total_time, download_bytes, length), end='\n\n')
-        
+
+
 def usage(program_name):
     """
     Print the usage of the program.
@@ -193,7 +210,7 @@ def usage(program_name):
     """
     print(__copyright__)
     print(_("Usage:"))
-    print("      {} [-bhsH] [-n NUM] [-N NUM] [URL] [filename]".format(program_name))
+    print("      {0} [-bhsH] [-n NUM] [-N NUM] [URL] [filename]".format(program_name))
     print(_("      Download FLV video from other video websites."), end='\n\n')
     print("-h")
     print(_("    Print the help information."), end='\n\n')
@@ -213,6 +230,7 @@ def usage(program_name):
     print(_("    the name of the file used to save what you will download."), end='\n\n')
     sys.exit(os.EX_OK)
 
+
 if __name__ == "__main__":
     import local
     import locale
@@ -221,7 +239,7 @@ if __name__ == "__main__":
 
     url = ''
     filename = ''
-    
+
     # Handle the argument from the command line.
     try:
         options, args = getopt.getopt(sys.argv[1:], "bhHsn:N:")
@@ -265,14 +283,14 @@ if __name__ == "__main__":
     print(_("Parse the URL ..."))
     urls = parser.parse_url()
     if urls is None:
-        print(_("Can't parse the URL: {}").format(url))
+        print(_("Can't parse the URL: {0}").format(url))
         sys.exit(os.EX_OK)
-    
+
     # Check whether there are other kind of videos.
     if not urls:
         parser.check_others()
         sys.exit(os.EX_OK)
-        
+
     # Correct the filename.
     if not filename:
         url_split = urlparse(url)
@@ -296,13 +314,13 @@ if __name__ == "__main__":
 
     # Judge whether the file exists.
     if os.path.lexists(filename):
-        y_or_n = input(_("{} has existed. Do you download it again? (y or n) ").format(filename))
+        y_or_n = input(_("{0} has existed. Do you download it again? (y or n) ").format(filename))
         while y_or_n not in ('y', 'Y', 'N', 'n'):
             y_or_n = input(_("Please input (y or n): "))
         if y_or_n in ('n', 'N'):
             print(_("Exit ..."))
             sys.exit(os.EX_OK)
-    
+
     # Ensure each filename correspond to each url.
     url_len = len(urls)
     if url_len < 2:
@@ -310,11 +328,11 @@ if __name__ == "__main__":
         print(_("This file has totally one part."))
     else:
         if loc == -1:
-            filenames = ['{}_{:d}_{:02d}'.format(filename, url_len, i) for i in range(1, len(urls)+1)]
+            filenames = ['{0}_{1:d}_{2:02d}'.format(filename, url_len, i) for i in range(1, len(urls)+1)]
         else:
             dot_loc = filename.rfind('.')
-            filenames = ['{}_{:d}_{:02d}{}'.format(filename[:dot_loc], url_len, i, filename[dot_loc:]) for i in range(1, len(urls)+1)]
-        print(_("This file is divided into {:d} parts.").format(len(filenames)))
+            filenames = ['{0}_{1:d}_{2:02d}{3}'.format(filename[:dot_loc], url_len, i, filename[dot_loc:]) for i in range(1, len(urls)+1)]
+        print(_("This file is divided into {0:d} parts.").format(len(filenames)))
 
     if n_or_N == 'n':
         if url_len > nth_part:
@@ -333,7 +351,7 @@ if __name__ == "__main__":
     try:
         for i, u_f in enumerate(zip(urls, filenames), nth_part):
             if url_len > 1:
-                print(_("Downloading the {:d}th part ...").format(i))
+                print(_("Downloading the {0:d}th part ...").format(i))
             task = Thread(target=download.download, args=(u_f[0], u_f[1]))
             task.start()
             download.watch(u_f[1], task)

@@ -7,7 +7,8 @@ __all__ = ["install_downloader", "install_get_tasks_info", "get_tasks_info",
            "is_default_tasks_information"]
 
 _real_downloader = None
-    
+
+
 def install_downloader(downloader=None):
     global _real_downloader
     if downloader is None:
@@ -23,13 +24,17 @@ def install_downloader(downloader=None):
     else:
         _real_downloader = downloader
 
+
 def _tasks_information(filenames=None):
     return {}
 
+
 _default_tasks_information = _tasks_information
+
 
 def is_default_tasks_information():
     return _default_tasks_information == _tasks_information
+
 
 def install_get_tasks_info(func=None):
     global _tasks_information
@@ -45,6 +50,7 @@ def install_get_tasks_info(func=None):
         _tasks_information = download.get_tasks_info
     else:
         _tasks_information = func
+
 
 def get_tasks_info(filenames=None):
     return _tasks_information(filenames)
