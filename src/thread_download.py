@@ -246,7 +246,7 @@ def thread_download(url, filename, temp_dir, number=_thread_number, breakpoint=T
     _thread_lock.release()
 
     if not accept_ranges or not length:
-        _not_breakpoint_download()
+        _not_breakpoint_download(url, filename)
         return 2
     else:
         _breakpoint_download(url, filename, temp_dir, number, length)
