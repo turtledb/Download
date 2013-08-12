@@ -20,7 +20,9 @@ Introduction
 
 Requirement
 
-    Before use, please install the python programming language(>=3) and the BeautifulSoup package(>=4).
+    Before use, please install the python programming language(>=2.6) and the BeautifulSoup package(>=4).
+    Now, these support python 2.6, 2.7, and 3.X. Below 2.6, such as 2.5, I don't test; because these versions are
+    too old, and I don't want to support them.
 
 Use
 
