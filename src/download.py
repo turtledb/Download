@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
 # FUNCTION: Download what you want through the multiprocessing or the multithreading.
 # NOTICES:  If the downloaded percent is over 100%, it indicates the URL of the file
