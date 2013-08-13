@@ -20,9 +20,10 @@ Introduction
 
 Requirement
 
-    Before use, please install the python programming language(>=2.6) and the BeautifulSoup package(>=4).
-    Now, these support python 2.6, 2.7, and 3.X. Below 2.6, such as 2.5, I don't test; because these versions are
-    too old, and I don't want to support them.
+    Before use, please install the python programming language(>=2.6) and the BeautifulSoup package(>=4). But if
+    only using download.py, not need BeautifullSoup4, and only flv_download.py needs it. Now, these support 
+    python 2.6, 2.7, and 3.X. Below 2.6, such as 2.5, I don't test; because these versions are too old, and I
+    don't want to support them.
 
 Use
 
