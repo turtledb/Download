@@ -1,4 +1,7 @@
 download:
+0.2.2:
+    (1) Compatible with Python 2.6, 2.7 and 3.X.
+    
 0.2.1:
     (1) Add the I18N.
     (2) Add the version information, and so on.
@@ -18,6 +21,9 @@ download:
 
 
 flv_download:
+0.2.2:
+    (1) Compatible with Python 2.6, 2.7 and 3.X.
+    
 0.2.1:
     (1) Add the I18N.
     (2) Add the version information, and so on.
