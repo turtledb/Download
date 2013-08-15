@@ -11,7 +11,7 @@ _parent_dir = os.path.dirname(os.path.dirname(__file__))
 _locale_dir = os.path.join(_parent_dir, 'local')
 
 def install_gettext(domain, localedir=_locale_dir, languages=[_lang], fallback=True, windows=False):
-    if os.name != "posix" or os.name != "mac" or not windows:
+    if os.name != "posix" and os.name != "mac" and not windows:
         if py3or2.PY3:
             import builtins
         else:
