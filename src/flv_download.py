@@ -35,6 +35,7 @@ if py3or2.PY3:
 else:
     from urllib2 import URLError, urlopen
     from urlparse import urlparse
+    input = raw_input
 
 try:
     from threading import Thread
