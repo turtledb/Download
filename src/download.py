@@ -174,9 +174,9 @@ def download(urls, filenames, temp_dir=temp_directory_to_save_file, task_number=
                     print("================================================================================")
                     print(_('Save the content of the URL without multithreading or multiproccess'))
                     print("================================================================================")
-                    print(analyse_result(get_tasks_info(filename), filename), end="\n\n")
+                    print(analyse_result(get_tasks_info(filename), filename))
                 elif r == 3:
-                    print(analyse_result(get_tasks_info(filename), filename), end="\n\n")
+                    print(analyse_result(get_tasks_info(filename), filename))
     return rtn
 
 

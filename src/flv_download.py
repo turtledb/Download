@@ -363,7 +363,7 @@ if __name__ == "__main__":
         print()
         print(_("Sorry! The program has a exception, and the author will modify it."))
     else:
-        if url_len == len(urls):
+        if url_len == len(urls) and url_len > 1:
             total_time = int(time.time() - start_time)
             print()
             print_result(download.get_tasks_info(), filename, filenames, total_time)
