@@ -57,7 +57,7 @@ format_time  = result_analyse.format_time
 debug = False
 task_number = 10
 breakpoint_file = "breakpoint_transmission.info"
-directory_to_save_file = '~/Download'
+directory_to_save_file = '~/Downloads'
 temp_directory_to_save_file = os.path.join(directory_to_save_file, "_TEMP_")
 
 
